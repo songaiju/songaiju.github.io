@@ -1,0 +1,559 @@
+
+<!DOCTYPE html>
+<html lang="en" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>《算法解析之十大经典排序》 - Hexo</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Fechin,"> 
+    <meta name="description" content="前言代码均为个人实战，与力扣官方题解各有不同，仅供参考，若需外传，请标明出处：来自编辑者【七块两毛六】的网站littletalk.online，《解析十大经典排序算法》
+
+
+
+第一章算法汇总：   ,"> 
+    <meta name="author" content="John Doe"> 
+    <link rel="alternative" href="atom.xml" title="Hexo" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Hexo</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://example.com"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">《算法解析之十大经典排序》</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">《算法解析之十大经典排序》</h1>
+        <div class="stuff">
+            <span>十二月 12, 2021</span>
+            
+  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/JAVA/" rel="tag">JAVA</a></li></ul>
+
+
+        </div>
+        <div class="content markdown">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><pre><code>代码均为个人实战，与力扣官方题解各有不同，仅供参考，若需外传，请标明出处：来自编辑者【七块两毛六】的网站littletalk.online，《解析十大经典排序算法》
+</code></pre>
+<hr>
+<hr>
+<h2 id="第一章"><a href="#第一章" class="headerlink" title="第一章"></a>第一章</h2><p>算法汇总：<br>    /**<br>     * 类型：10种【排序算法】<br>     * 方式：思路codeing,均与官方答案不同<br>     * 历时：一周<br>     * @param nums<br>     * @return<br>     */</p>
+<p>//        bubbleSort(nums);//冒泡排序法（最初的梦想，逢则置换）n^2:Time Limit Exceeded<br>//        selectSort(nums);//选择排序法（遇到更小的再置换）n^2:Time Limit Exceeded<br>//        insertSort(nums);//插入排序（排卡牌，确定顺序插入，确定过程要不断移动）n^2:Time Limit Exceeded<br>//        shellSort(nums, nums.length);//希尔排序 (按照非递增的增量序列去进行插入排序):执行耗时:606 ms,击败了38.71% 的Java用户<br>//        mergeSort(nums,0, nums.length-1);//归并排序 (很重要的排序，目前计算机排序重点，执行目前最快):执行耗时:12 ms,击败了72.01% 的Java用户<br>//        quickSort(nums,0,nums.length-1);  //快速排序 (力扣上加了【最坏】用例，所以会慢于上面的归并，但还是最快算法):执行耗时:1404 ms,击败了10.77% 的Java用户<br>//        heapSort(nums);//堆排序（堆上每取顶点一次就重构一下）n*logn:执行耗时:22 ms,击败了42.79% 的Java用户<br>//        countSort(nums);//计数排序（如果最小值与最大值的差距不是超级大而元素少的情况下比如[0,10000]，是最吊的排序算法）,理想情况O(n):执行耗时:2 ms,击败了100.00% 的Java用户<br>//        bucketSort(nums);//桶排序 （计数排序相当于只有一个桶）执行耗时:19 ms,击败了46.22% 的Java用户<br>//        radixSort(nums);//基数排序 (相当于按照元素位数进行分桶的桶排序)，0-9桶索引放负数，10-19放正数.执行耗时:14 ms,击败了64.34% 的Java用户       </p>
+<hr>
+<h2 id="第二章"><a href="#第二章" class="headerlink" title="第二章"></a>第二章</h2><p>各算法代码：</p>
+<pre><code>/**
+ * --------------------------------------------------冒泡排序--------------------------------------------------
+ */
+/**
+ * 官方已经加了超大数组用例，不会再给通过了
+ *
+ * @param nums
+ */
+public void bubbleSort(int[] nums) &#123;
+    for (int i = 0; i &lt; nums.length - 1; i++) &#123;//最后一个元素不用
+        for (int j = 0; j &lt; nums.length - 1 - i; j++) &#123;//每次内循环完成，意味着数组末尾确定了一个最大值
+            if (nums[j] &gt; nums[j + 1]) swap(nums, j, j + 1);//成立一次，置换一次
+        &#125;
+    &#125;
+&#125;
+
+
+/**
+ * --------------------------------------------------选择排序--------------------------------------------------
+ */
+/**
+ * 官方已经加了超大数组用例，也不给通过了
+ *
+ * @param nums
+ */
+public void selectSort(int[] nums) &#123;
+    for (int i = 0; i &lt; nums.length - 1; i++) &#123;//最后一个元素不用
+        int minIndex = i;//选取自己为最小值索引
+        for (int j = i + 1; j &lt; nums.length; j++) &#123;//每次内循环完成，意味着i元素确定了最小值
+            if (nums[j] &lt; nums[minIndex]) minIndex = j;//更新最小索引
+        &#125;
+        if (minIndex != i) swap(nums, i, minIndex);//若==i，则最小索引没变化，不置换
+    &#125;
+&#125;
+
+
+/**
+ * --------------------------------------------------插入排序--------------------------------------------------
+ */
+/**
+ * 插入排序
+ * 插入排序也被官方限制了，最后那个用例太猛了
+ *
+ * @param nums
+ */
+public void insertSort(int[] nums) &#123;
+    for (int i = 0; i &lt; nums.length; i++) &#123;
+        insertTo(nums, i, nums[i]);//进入直插判断
+    &#125;
+&#125;
+
+/**
+ * 插入判断
+ * 递归调用
+ *
+ * @param nums
+ * @param cur         会变 待插入的索引位置 （初始为toInsertNum的索引）
+ * @param toInsertNum 不变 提取出一开始被比较的元素值，方便待插入。
+ */
+public void insertTo(int[] nums, int cur, int toInsertNum) &#123;
+    if (cur == 0) &#123;
+        nums[cur] = toInsertNum;
+        return;
+    &#125;
+    ;//就地插入
+</code></pre>
+<p>//        int prev = –cur;//待被比较的前一个元素索引 //–cur，cur都变了，不可<br>        int prev = cur - 1;//待被比较的前一个元素索引<br>        if (toInsertNum &lt; nums[prev]) {<br>            nums[cur] = nums[prev];//prev元素值往后放<br>            insertTo(nums, prev, toInsertNum);//继续<br>        } else {<br>            nums[cur] = toInsertNum;//就地插入<br>        }<br>    }</p>
+<pre><code>/**
+ * --------------------------------------------------希尔排序--------------------------------------------------
+ */
+/**
+ * 希尔排序
+ * 第一个打破On^2的算法
+ * 增量幅度：可以按照n/2，也可以按照奇数，也可以按照互质
+ *
+ * @param nums
+ * @param length
+ */
+public void shellSort(int[] nums, int length) &#123;
+    int seqlen = length / 2;
+    if (seqlen &lt; 1) return;
+    for (int i = 0; i &lt; nums.length; i++) &#123;
+        if (seqlen == 1) &#123;//（关键点：增长序列为1时，数组已基本有序-&gt;降低了插入次数）
+            insertSort(nums);//开始执行【插入排序算法】。
+            break;
+        &#125;
+        if (i + seqlen &gt;= nums.length) break;//如果超过数组下标则中断，开始下一增量
+        if (nums[i + seqlen] &lt; nums[i]) &#123;//增长序列不为1，间隔性的排序并置换
+            swap(nums, i + seqlen, i);
+        &#125;
+    &#125;
+    shellSort(nums, seqlen);
+&#125;
+
+
+/**
+ * --------------------------------------------------归并排序--------------------------------------------------
+ */
+/**
+ * 示例【67891234】
+ * 进阶性的递归：
+ * 定义两个临时数组，左数组和右数组，【分治:只负责分组】到最小：【6】&amp;【7】，然后【合并：负责比较并落入新数组（原数组也可以）】
+ * 进-进l-进l（line上）-【6】，【7】-合并-出
+ * 进-进l-进l（line下）-【8】，【9】-合并=出
+ * 进-进l(line上)- 【67】【89】-合并-出
+ * 进-进r-进r（line上）-【1】，【2】-合并-出
+ * 进-进r-进r（line下）-【3】，【4】-合并=出
+ * 进-进r(line下)- 【12】【34】-合并-出
+ * 进-【6789】&amp;【1234】-合并，结束【12346789】
+ *
+ * @param nums
+ * @param l
+ * @param r    --|分支 mergeSort
+ */
+public void mergeSort(int[] nums, int L, int R) &#123;
+    if (L == R) return;
+    else &#123;
+        int M = (L + R) / 2;
+        mergeSort(nums, L, M);
+        mergeSort(nums, M + 1, R);
+        merge(nums, L, M + 1, R);
+    &#125;
+
+&#125;
+
+/**
+ * --|合并 merge
+ *
+ * @param nums
+ * @param l
+ * @param m
+ * @param r
+ */
+public void merge(int[] nums, int l, int m, int r) &#123;
+    int lsize = m - l, rsize = r - m + 1;
+    int[] lnums = new int[lsize];
+    int[] rnums = new int[rsize];
+    //--|1.fill in the left sub array
+    for (int i = l; i &lt; m; ) lnums[i - l] = nums[i++];
+    //--|2.fill in the right sub array
+    for (int i = m; i &lt;= r; ) rnums[i - m] = nums[i++];
+    //--|3.merge into
+</code></pre>
+<p>//        int i = 0, j = 0, k = 0;//特么问题就出现在这里，写成了k=0;<br>        int i = 0, j = 0, k = l;//特么问题就出现在这里，写成了k=0;<br>        while (i &lt; lsize &amp;&amp; j &lt; rsize) {<br>            if (lnums[i] &lt;= rnums[j]) nums[k++] = lnums[i++];<br>            else nums[k++] = rnums[j++];<br>        }<br>        while (i &lt; lsize) nums[k++] = lnums[i++];<br>        while (j &lt; rsize) nums[k++] = rnums[j++];<br>    }</p>
+<pre><code>/**
+ * --------------------------------------------------快速排序--------------------------------------------------
+ */
+/**
+ * 分治
+ *
+ * @param nums
+ * @param l
+ * @param r
+ */
+public void quickSort(int[] nums, int l, int r) &#123;
+    if (l &lt; r) &#123;//防止递归中通过后半区进来
+        int pivotIndex = compare(nums, nums[l], true, l, r);
+        quickSort(nums, l, pivotIndex - 1);//前半区
+        quickSort(nums, pivotIndex + 1, r);//后半区（一旦分区，pivotIndex一定小于r，所以不会在递归时进入）
+    &#125;
+&#125;
+
+/**
+ * 比较
+ *
+ * @param nums
+ * @param pivot
+ * @param flag
+ * @param l
+ * @param r
+ * @return
+ */
+public int compare(int[] nums, int pivot, Boolean flag, int l, int r) &#123;
+    while (l != r) &#123;//没重合，则可以继续比较
+        if (flag) &#123;//左指针移动
+            if (nums[r] &lt; pivot) &#123;
+                swap(nums, r, l++);//交换位置
+                flag = false;
+            &#125; else r--;
+        &#125; else if (nums[l] &gt; pivot) &#123;//右指针移动
+            swap(nums, l, r--);//交换位置
+            flag = true;
+        &#125; else l++;
+    &#125;
+    return l;//需要把当前位置返回出去，作为分区索引
+&#125;
+
+
+/**
+ * --------------------------------------------------堆排序--------------------------------------------------
+ * 把数组中的初始顺序，视为堆结构，然后对堆不断进行重构（其实是置换规则按照堆的规则来执行），达到排序效果
+ */
+/**
+ * 1）堆排序之
+ * --|最终排序
+ * 用最子节点替换大顶堆的顶节点，然后重新排序，
+ * 然后再取顶节点，再排序
+ * 然后继续...
+ *
+ * @param nums
+ */
+public void heapSort(int[] nums) &#123;
+    int len = nums.length;
+    buildHeap(nums, len);//先按照大顶堆顺序初始化一次堆
+    for (int i = len - 1; i &gt; 0; i--) &#123;
+        swap(nums, 0, i);
+        heapify(nums, i, 0);//置换后需要继续heapify递归构造好顺序，注意此处入参len=i,是因为传n-1和传i此时是一样的值变化
+    &#125;
+&#125;
+
+/**
+ * 2）堆排序之
+ * --|初始建堆:
+ * 对根节点依次heapify，其实正好是数组逆序，比如最后一个父节点，
+ * 而我们不知道最后一个父节点是哪个，但我们知道哪个是最后一个子节点
+ * 最底层子节点，也就是数组最后一个元素：(i-1)/2
+ *
+ * @param nums
+ * @param len
+ */
+public void buildHeap(int[] nums, int len) &#123;
+    int last = len - 1;
+    int parent = (last - 1) / 2;
+    //然后开始顺着第一个‘父’节点把上面的每个节点heapify
+</code></pre>
+<p>//        for (int i = parent; i &gt;= 0; i–) heapify(nums, len, parent);//这里写错了，哎，应该是传入i<br>        for (int i = parent; i &gt;= 0; i–) heapify(nums, len, i);<br>    }</p>
+<pre><code>/**
+ * 3）堆排序之
+ * --|子堆重构:
+ * 用于递归调用，因为到时建堆时，很大可能会出现因为动了其中一个父节点导致下一级父节点重构
+ * 公式：parent=(i - 1) / 2, child1=2 * i + 1, child2=2 * i + 2
+ * 规则：父&gt;子节点
+ *
+ * @param nums
+ * @param len
+ * @param i
+ */
+public void heapify(int[] nums, int len, int i) &#123;
+    if (i &gt;= len) return;//递归出口
+    int c1 = 2 * i + 1;//子节点(左)
+    int c2 = 2 * i + 2;//子节点(右)
+    int max = i;//假设最大是当前i索引处的节点
+    if (c1 &lt; len &amp;&amp; nums[c1] &gt; nums[max]) max = c1; //c&lt;n，避免索引越界
+    if (c2 &lt; len &amp;&amp; nums[c2] &gt; nums[max]) max = c2; //c&lt;n，避免索引越界
+    if (max != i) &#123;
+        swap(nums, max, i);//置换父子节点
+        heapify(nums, len, max);//max索引换了元素值，需要重构
+    &#125;
+&#125;
+
+
+/**
+ * --------------------------------------------------计数排序--------------------------------------------------
+ */
+/**
+ * 计数-存入-取出
+ *
+ * @param nums
+ */
+public void countSort(int[] nums) &#123;
+    //找出最值
+    int minVal = Integer.MAX_VALUE;
+    int maxVal = Integer.MIN_VALUE;
+    for (int i = 0; i &lt; nums.length; i++) minVal = nums[i] &lt; minVal ? nums[i] : minVal;
+    for (int i = 0; i &lt; nums.length; i++) maxVal = nums[i] &gt; maxVal ? nums[i] : maxVal;
+
+    //计算目标数组，放入新数组
+    int[] newNums = new int[maxVal - minVal + 1];
+    for (int i = 0; i &lt; nums.length; i++)
+        newNums[nums[i] - minVal] += 1;//①放入新数组：元素值就是新数组的索引值；-minVal是为了保持目标元素值和新数组索引对齐
+
+    //返回目标数组
+    int numsIndex = 0;
+    for (int i = 0; i &lt; newNums.length; i++) &#123;
+        while (newNums[i]-- != 0) nums[numsIndex++] = i + minVal;//②放回目标数组：索引值就是目标数组的元素值；+min是为了保持目标元素值和新数组索引对齐
+    &#125;
+&#125;
+
+
+/**
+ * --------------------------------------------------桶排序--------------------------------------------------
+ */
+/**
+ * 桶：用ArrayList方便动态添加桶元素
+ *
+ * @param nums
+ */
+public void bucketSort(int[] nums) &#123;
+    //找出最小值
+    int minVal = Integer.MAX_VALUE;
+    for (int i = 0; i &lt; nums.length; i++) minVal = nums[i] &lt; minVal ? nums[i] : minVal;
+
+    //找出最大值
+    int maxVal = Integer.MIN_VALUE;
+    for (int i = 0; i &lt; nums.length; i++) maxVal = nums[i] &gt; maxVal ? nums[i] : maxVal;
+
+    //计算桶个数
+    int backets = (maxVal - minVal) / nums.length + 1;//防止为0，所以+1；
+    //初始化每个桶
+    ArrayList&lt;ArrayList&lt;Integer&gt;&gt; arrayLists = new ArrayList&lt;&gt;(backets);//用List比二维数组更好动态存元素；
+    for (int i = 0; i &lt; backets; i++) arrayLists.add(new ArrayList&lt;Integer&gt;());
+
+    //放入元素到每个桶中
+    for (int i = 0; i &lt; nums.length; i++) &#123;
+        int backetOf = (nums[i] - minVal) / nums.length;
+        arrayLists.get(backetOf).add(nums[i]);
+    &#125;
+    //每个桶排序
+    for (int i = 0; i &lt; arrayLists.size(); i++) Collections.sort(arrayLists.get(i));//这里可以用Collections的sort方法代替
+
+    //返回目标数组
+    int numsIndex = 0;
+    for (int i = 0; i &lt; arrayLists.size(); i++) &#123;
+        for (int j = 0; j &lt; arrayLists.get(i).size(); j++) &#123;
+            nums[numsIndex++] = arrayLists.get(i).get(j);
+        &#125;
+    &#125;
+&#125;
+
+
+/**
+ * --------------------------------------------------基数排序--------------------------------------------------
+ */
+/**
+ * 每一趟关键字（比如个位），走一次完整的分配和收集
+ * @param nums
+ */
+public void radixSort(int[] nums) &#123;
+    //找出最大值
+    int maxVal = Integer.MIN_VALUE;
+    for (int i = 0; i &lt; nums.length; i++) &#123;
+</code></pre>
+<p>//            maxVal = nums[i] &gt; maxVal ? nums[i] : maxVal;//只适合正数取最大值，而负数里面需要取绝对值<br>            if (nums[i] &lt; 0) maxVal = Math.abs(nums[i]) &gt; maxVal ? Math.abs(nums[i]) : maxVal;<br>            else maxVal = nums[i] &gt; maxVal ? nums[i] : maxVal;<br>        }</p>
+<pre><code>    //计算趟数(个位，十位，百位...)
+    int times = 0;
+    for (int i = maxVal; i != 0; i = i / 10) times++;
+
+    //每一趟的桶分配与收集(个位分配一次，十位一次..，每个位（关键字），需要十个桶（0-9）)
+    int mod = 10;//模
+    int dev = 1;//用于取十位、百位...
+    int evryBackets =10&lt;&lt;1;//每个关键字都是十个桶，0-9，比如看元素个位时候，有0-9这10种元素，同理十位，百位，千位..
+    //按关键字走i趟(个位时，分配-&gt;收集一次，十位时同理)
+    for (int i = 0; i &lt; times; i++, mod *= 10, dev *= 10) &#123;
+        //初始化桶
+        ArrayList&lt;ArrayList&lt;Integer&gt;&gt; arrayLists = new ArrayList&lt;&gt;(evryBackets);//考虑负数，evryBackets加倍
+        for (int j = 0; j &lt; evryBackets; j++) &#123;
+            arrayLists.add(new ArrayList&lt;Integer&gt;());
+        &#125;
+        //往桶中放入元素
+        for (int j = 0; j &lt; nums.length; j++) &#123;
+            int backetOf = nums[j] % mod / dev+10;
+            arrayLists.get(backetOf).add(nums[j]);
+        &#125;
+        //从桶中收集到原数组
+        int index = 0;
+        for (int j = 0; j &lt; arrayLists.size(); j++) &#123;
+            ArrayList&lt;Integer&gt; integers = arrayLists.get(j);
+            for (int k = 0; k &lt; integers.size(); k++) &#123;
+                nums[index++] = integers.get(k);
+            &#125;
+        &#125;
+    &#125;
+&#125;
+
+
+
+/**
+ * --------------------------------------------------公共函数--------------------------------------------------
+ */
+/**
+ * 元素置换
+ *
+ * @param nums
+ * @param i
+ */
+public void swap(int[] nums, int i, int j) &#123;
+    nums[j] = nums[j] ^ nums[i];
+    nums[i] = nums[j] ^ nums[i];
+    nums[j] = nums[j] ^ nums[i];
+&#125;
+</code></pre>
+<hr>
+<h2 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h2><p><a target="_blank" rel="noopener" href="https://www.cs.usfca.edu/~galles/visualization/Algorithms.html">https://www.cs.usfca.edu/~galles/visualization/Algorithms.html</a></p>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="false">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='http://link.hhtjim.com/163/425570952.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://link.hhtjim.com/163/425570952.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='false'
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+</html>
